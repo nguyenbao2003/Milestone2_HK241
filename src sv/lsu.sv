@@ -50,11 +50,11 @@ module lsu (
     assign byte_offset = i_lsu_addr[1:0];
 	
 
-    wire [12:0] lsu_addr[3:0];
-    assign lsu_addr[0]= i_lsu_addr[12:0];
-    assign lsu_addr[1]= i_lsu_addr[12:0] + 13'd1;
-    assign lsu_addr[2]= i_lsu_addr[12:0] + 13'd2;
-    assign lsu_addr[3]= i_lsu_addr[12:0] + 13'd3;
+//    wire [12:0] lsu_addr[3:0];
+//    assign lsu_addr[0]= i_lsu_addr[12:0];
+//    assign lsu_addr[1]= i_lsu_addr[12:0] + 13'd1;
+//    assign lsu_addr[2]= i_lsu_addr[12:0] + 13'd2;
+//    assign lsu_addr[3]= i_lsu_addr[12:0] + 13'd3;
 	 
 	 //================================= SRAM ==========================================
 	 
@@ -295,6 +295,8 @@ module lsu (
 						F3_B: begin // SB
 							sram_st_data [7:0] = i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -311,6 +313,8 @@ module lsu (
 						F3_B: begin // SB
 							sram_st_data [15:8] = i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -327,6 +331,8 @@ module lsu (
 						F3_B: begin // SB
 							sram_st_data [23:16] = i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -343,6 +349,8 @@ module lsu (
 						F3_B: begin // SB
 							sram_st_data [31:24] = i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 			endcase
@@ -360,8 +368,8 @@ module lsu (
 	 end
 		
 		 
-	 always @(posedge i_clk or negedge i_rst) begin
-        if (!i_rst) begin
+	 always @(posedge i_clk or posedge i_rst) begin
+        if (i_rst) begin
             reg_7_segment[0] <= 8'h0;
 				reg_7_segment[1] <= 8'h0;
 				reg_7_segment[2] <= 8'h0;
@@ -397,6 +405,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[0] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -416,6 +426,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[1] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -434,6 +446,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[2] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -449,7 +463,9 @@ module lsu (
 						
 						F3_B: begin // SB
 							reg_7_segment[3] <= i_st_data [7:0];
-						end		
+						end
+						
+						default: ;// do nothing
 					endcase
 				end
 			endcase	
@@ -472,6 +488,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[4] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -491,6 +509,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[5] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -509,6 +529,8 @@ module lsu (
 						F3_B: begin // SB
 							reg_7_segment[6] <= i_st_data [7:0];
 						end
+						
+						default: ;// do nothing
 					endcase
 				end
 				
@@ -524,7 +546,9 @@ module lsu (
 						
 						F3_B: begin // SB
 							reg_7_segment[7] <= i_st_data [7:0];
-						end		
+						end
+				
+						default: ;// do nothing
 					endcase
 				end
 			endcase
@@ -537,13 +561,13 @@ module lsu (
 	 
 	 // Continuous assignment for 7-segment displays
     always @(*) begin
-        o_io_hex0 = reg_7_segment[0];
-        o_io_hex1 = reg_7_segment[1];
-        o_io_hex2 = reg_7_segment[2];
-        o_io_hex3 = reg_7_segment[3];
-        o_io_hex4 = reg_7_segment[4];
-        o_io_hex5 = reg_7_segment[5];
-        o_io_hex6 = reg_7_segment[6];
-        o_io_hex7 = reg_7_segment[7];
+        o_io_hex0 = reg_7_segment[0][6:0];
+        o_io_hex1 = reg_7_segment[1][6:0];
+        o_io_hex2 = reg_7_segment[2][6:0];
+        o_io_hex3 = reg_7_segment[3][6:0];
+        o_io_hex4 = reg_7_segment[4][6:0];
+        o_io_hex5 = reg_7_segment[5][6:0];
+        o_io_hex6 = reg_7_segment[6][6:0];
+        o_io_hex7 = reg_7_segment[7][6:0];
     end
 endmodule

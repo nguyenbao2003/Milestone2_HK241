@@ -1,6 +1,6 @@
 module I$ (
-	input 				clk_i,
-	input 				rst_ni,
+	input 				i_clk,
+	input 				i_rst,
 	input      [31:0] pc,
 	output reg [31:0] instr
 );
@@ -8,12 +8,12 @@ module I$ (
 
 	initial begin
 		//prefer absolute paths in simulators
-		$readmemh("C://Users//NCB//OneDrive//Documents//Quartus//milestone2//instruction.mem", instructions_Value);
+		$readmemh("C://Users//NCB//OneDrive//Documents//Quartus//milestone2_sv//instruction.mem", instructions_Value);
 	end
 
-//	always @(posedge clk_i or negedge rst_ni) begin
+//	always @(posedge i_clk or posedge i_rst) begin
 	always @(*) begin
-//		if (!rst_ni) begin
+//		if (i_rst) begin
 //			instr <= 32'd0;
 //		end else begin
 			// instruction = instructions_Value[PCF/4];  // dividing will take more hardware resources

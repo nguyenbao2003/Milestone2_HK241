@@ -32,8 +32,8 @@ module regfile (
 		checkx7 = Registers[7];
     end
 
-    always @(posedge i_clk or negedge i_rst) begin
-        if (!i_rst) begin
+    always @(posedge i_clk or posedge i_rst) begin
+        if (i_rst) begin
             for(j = 0; j < 32;j = j + 1) begin
                 Registers[j] <= 32'd0;
             end

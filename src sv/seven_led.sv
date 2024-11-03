@@ -33,6 +33,7 @@ module seven_led(
 			4'b0111 : conv_to_seg = 7'h78;
 			4'b1000 : conv_to_seg = 7'h00;
 			4'b1001 : conv_to_seg = 7'h10;
+			default: ;// do nothing
 		endcase
 	endfunction
 

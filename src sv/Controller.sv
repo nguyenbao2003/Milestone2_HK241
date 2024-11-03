@@ -1,13 +1,13 @@
 
 module Controller (
 	input wire     [31:0]instr,
-	input      [6:0] OP,
-	input      [6:0] funct77,
-	input      [2:0] funct3,
-	input            funct7,
-	input					OPb5,
-	input 				br_less,
-	input 				br_equal,
+	input wire     [6:0] OP,
+	input wire     [6:0] funct77,
+	input wire     [2:0] funct3,
+	input wire           funct7,
+	input	wire				OPb5,
+	input wire				br_less,
+	input wire				br_equal,
 	output reg       	mem_wren,
 	output reg       	rd_wren,
 	output reg 			op_a_sel,
@@ -86,12 +86,12 @@ module Controller (
 		
 	always @(*) begin
 		case(funct3)
-			3'b000:   br_sel_tmp = (br_equal)? 1 : 0; //beq
-			3'b001:   br_sel_tmp = (~br_equal)? 1 : 0; //bne
-			3'b100:   br_sel_tmp = (br_less)? 1 : 0;  //blt
-			3'b101:   br_sel_tmp = (!br_less | br_equal)? 1: 0;  //bge
-			3'b110:   br_sel_tmp = (br_less)? 1 :0;  //bltu
-			3'b111:   br_sel_tmp = (!br_less | br_equal)? 1: 0; //bgeu
+			3'b000:   br_sel_tmp = (br_equal)? 1'b1 : 1'b0; //beq
+			3'b001:   br_sel_tmp = (~br_equal)? 1'b1 : 1'b0; //bne
+			3'b100:   br_sel_tmp = (br_less)? 1'b1 : 1'b0;  //blt
+			3'b101:   br_sel_tmp = (!br_less | br_equal)? 1'b1 : 1'b0;  //bge
+			3'b110:   br_sel_tmp = (br_less)? 1'b1 : 1'b0;  //bltu
+			3'b111:   br_sel_tmp = (!br_less | br_equal)? 1'b1 : 1'b0; //bgeu
 			default : br_sel_tmp =  1'b0;
 		endcase
 	end

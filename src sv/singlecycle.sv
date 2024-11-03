@@ -1,20 +1,20 @@
 module singlecycle(
-	input clk_i,
-	input rst_ni,
+	input i_clk,
+	input i_rst,
 	input [31:0] i_io_sw,
 	
 //	output wire [31:0] check_pc,
-	output wire [31:0]	o_pc_debug,
-	output wire 			o_insn_vld,
+//	output wire [31:0]	o_pc_debug,
+//	output wire 			o_insn_vld,
 //	output wire [31:0] 	st_data_debug,
-	output wire [31:0] 	ld_data_debug,
+//	output wire [31:0] 	ld_data_debug,
 //	output wire [31:0] 	ld_data_debug_1,
-	output wire [31:0] 	alu_data_debug,
+//	output wire [31:0] 	alu_data_debug,
 //	output wire [31:0] 	o_io_lcd,
 	output wire [31:0] 	o_io_ledg,
 	output wire [31:0]	o_io_ledr,
-//	output wire [6:0]	o_io_hex0,
-//	output wire [6:0]	o_io_hex1,
+	output wire [6:0]	o_io_hex0,
+	output wire [6:0]	o_io_hex1,
 //	output wire [6:0]	o_io_hex2,
 //	output wire [6:0]	o_io_hex3,
 //	output wire [6:0]	o_io_hex4,
@@ -41,7 +41,7 @@ module singlecycle(
 	 output wire  br_unsigned_debug,
 	 output wire [1:0] wb_sel_debug,
 	 output wire[31:0] checkx1,  //it is to see x1 of file (you can ignore it if your simulator allows you to see full RF)
-//    output wire [31:0] checkx2,
+    output wire [31:0] checkx2,
     output wire [31:0] checkx3
 //    output wire [31:0] checkx4,
 //    output wire [31:0] checkx5
@@ -49,8 +49,8 @@ module singlecycle(
 //	 output wire [31:0] checkx7
 );
 
-	wire [6:0]	o_io_hex0;
-	wire [6:0]	o_io_hex1;
+//	wire [6:0]	o_io_hex0;
+//	wire [6:0]	o_io_hex1;
 	wire [6:0]	o_io_hex2;
 	wire [6:0]	o_io_hex3;
 	wire [6:0]	o_io_hex4;
@@ -58,10 +58,10 @@ module singlecycle(
 	wire [6:0]	o_io_hex6;
 	wire [6:0]	o_io_hex7;
 
-	wire [31:0] check_pc;
+//	wire [31:0] check_pc;
 //	wire [31:0]	o_pc_debug;
 //	wire [31:0] checkx1;
-	wire [31:0] checkx2;
+//	wire [31:0] checkx2;
 //	wire [31:0] checkx3;
 	wire [31:0] checkx4;
 	wire [31:0] checkx5;
@@ -112,7 +112,7 @@ module singlecycle(
 	assign ld_data_debug = ld_data; // sau LSU
 //	assign ld_data_debug_1 = ld_data;	// sau MUX LOAD
 	assign alu_data_debug = alu_data;
-	assign check_pc = pc;
+//	assign check_pc = pc;
 	assign check_alu_op = alu_op;
 	assign check_br_sel = br_sel;
 	assign check_br_equal = br_equal;
@@ -122,8 +122,8 @@ module singlecycle(
 	
 	
 	Address_Generator u0(
-		.rst_ni	(rst_ni		),
-		.clk_i	(clk_i		),
+		.i_rst	(i_rst		),
+		.i_clk	(i_clk		),
 		.br_sel	(br_sel		),
 		.pc_four	(pc_four		),
 		.pc_bru	(alu_data	),	
@@ -136,8 +136,8 @@ module singlecycle(
 	);
 	
 	I$ u2(
-		.clk_i	(clk_i	),
-		.rst_ni 	(rst_ni	),
+		.i_clk	(i_clk	),
+		.i_rst 	(i_rst	),
 		.pc 		(pc		),
 		.instr	(instr	)
 	);
@@ -160,16 +160,16 @@ module singlecycle(
 		.i_rs2_addr(rs2_addr),
 		.i_rd_addr	(rd_addr	),
 		.i_rd_data	(wb_data	),
-		.i_clk 	(clk_i	),
+		.i_clk 	(i_clk	),
 		.i_rd_wren (rd_wren	),
-		.i_rst 	(rst_ni	),
+		.i_rst 	(i_rst	),
 		.o_rs1_data(rs1_data),
 		.o_rs2_data(rs2_data),
 		.checkx1 (checkx1	),
 		.checkx2 (checkx2	),
-		.checkx4 (checkx4	),
-		.checkx3 (checkx3	),
-		.checkx5 (checkx5	)
+//		.checkx4 (checkx4	),
+		.checkx3 (checkx3	)
+//		.checkx5 (checkx5	)
 //		.checkx6 (checkx6	),
 //		.checkx7 (checkx7	)
 	);
@@ -184,7 +184,7 @@ module singlecycle(
 		.i_rs1_data 	(rs1_data	),
 		.i_rs2_data 	(rs2_data	),
 		.ImmExtD		(ImmExtD		),
-		.slti_sel 	(slti_sel	),
+		.i_slti_sel 	(slti_sel	),
 		.i_br_un(br_unsigned),
 		.o_br_less 	(br_less		),
 		.o_br_equal 	(br_equal	)
@@ -226,9 +226,9 @@ module singlecycle(
 	lsu u9(
 		.i_st_data (rs2_data	),
 		.i_lsu_addr 	(alu_data	),
-		.i_clk 	(clk_i		),
+		.i_clk 	(i_clk		),
 		.i_lsu_wren 	(mem_wren	),
-		.i_rst 	(rst_ni		),
+		.i_rst 	(i_rst		),
 		.funct3	(funct3		),
 		.i_io_sw 	(i_io_sw		),
 		.o_io_hex0 (o_io_hex0	),
@@ -241,7 +241,7 @@ module singlecycle(
 		.o_io_hex7 (o_io_hex7	),
 		.o_io_ledg (o_io_ledg	),
 		.o_io_ledr (o_io_ledr	),
-		.o_io_lcd 	(o_io_lcd	),
+//		.o_io_lcd 	(o_io_lcd	),
 		.o_ld_data (ld_data)
 	);
 	
@@ -254,8 +254,8 @@ module singlecycle(
 	);
 	
 	pc_inst_debug u11(
-		.clk_i (clk_i),
-		.rst_ni (rst_ni),
+		.i_clk (i_clk),
+		.i_rst (i_rst),
 		.insn_vld (insn_vld),
 		.pc (pc),
 		.o_insn_vld (o_insn_vld),
