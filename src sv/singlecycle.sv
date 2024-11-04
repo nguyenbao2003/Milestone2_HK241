@@ -4,8 +4,8 @@ module singlecycle(
 	input [31:0] i_io_sw,
 	
 //	output wire [31:0] check_pc,
-//	output wire [31:0]	o_pc_debug,
-//	output wire 			o_insn_vld,
+	output wire [31:0]	o_pc_debug,
+	output wire 			o_insn_vld,
 //	output wire [31:0] 	st_data_debug,
 //	output wire [31:0] 	ld_data_debug,
 //	output wire [31:0] 	ld_data_debug_1,
@@ -59,7 +59,6 @@ module singlecycle(
 	wire [6:0]	o_io_hex7;
 
 //	wire [31:0] check_pc;
-//	wire [31:0]	o_pc_debug;
 //	wire [31:0] checkx1;
 //	wire [31:0] checkx2;
 //	wire [31:0] checkx3;
@@ -86,7 +85,7 @@ module singlecycle(
 	wire 			br_unsigned, br_less, br_equal;
 	wire 			mem_wren;
 	wire 			op_a_sel, op_b_sel;
-	wire [4:0] 	alu_op;
+	wire [3:0] 	alu_op;
 	wire [1:0]	wb_sel;
 	wire [31:0] alu_data, addr, wb_data;
 	wire [31:0] io_sw;
@@ -109,9 +108,9 @@ module singlecycle(
 	assign br_unsigned_debug = br_unsigned;
 	assign wb_sel_debug = wb_sel;
 //	assign st_data_debug = st_data;
-	assign ld_data_debug = ld_data; // sau LSU
+//	assign ld_data_debug = ld_data; // sau LSU
 //	assign ld_data_debug_1 = ld_data;	// sau MUX LOAD
-	assign alu_data_debug = alu_data;
+//	assign alu_data_debug = alu_data;
 //	assign check_pc = pc;
 	assign check_alu_op = alu_op;
 	assign check_br_sel = br_sel;
@@ -136,8 +135,8 @@ module singlecycle(
 	);
 	
 	I$ u2(
-		.i_clk	(i_clk	),
-		.i_rst 	(i_rst	),
+//		.i_clk	(i_clk	),
+//		.i_rst 	(i_rst	),
 		.pc 		(pc		),
 		.instr	(instr	)
 	);
@@ -239,13 +238,21 @@ module singlecycle(
 		.o_io_hex5 (o_io_hex5	),
 		.o_io_hex6 (o_io_hex6	),
 		.o_io_hex7 (o_io_hex7	),
+//		.o_io_hex0 (HEX0	),
+//		.o_io_hex1 (HEX1	),
+//		.o_io_hex2 (HEX2	),
+//		.o_io_hex3 (HEX3	),
+//		.o_io_hex4 (HEX4	),
+//		.o_io_hex5 (HEX5	),
+//		.o_io_hex6 (HEX6	),
+//		.o_io_hex7 (HEX7  ),
 		.o_io_ledg (o_io_ledg	),
 		.o_io_ledr (o_io_ledr	),
 //		.o_io_lcd 	(o_io_lcd	),
 		.o_ld_data (ld_data)
 	);
 	
-	mux_saulsu u10(
+	mux_1 u10(
 		.pc_four (pc_four	),
 		.alu_data(alu_data),
 		.ld_data_2 (ld_data),

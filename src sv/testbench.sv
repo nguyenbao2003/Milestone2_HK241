@@ -98,7 +98,7 @@ module testbench;
 //		io_sw_i = 1;
 //		#40;
 //		io_sw_i = 0;
-		#800000;
+		#8000;
 		
 		$stop;
 	end
